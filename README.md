@@ -1,6 +1,6 @@
 # Pre-Calculus-Graphing-VB6
 
-A Pre-Calculus visual graph that graphs the parabolas of given input.
+A Pre-Calculus graphing calculator that visually graphs the given input.
 
 (Created during highschool)
 
