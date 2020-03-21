@@ -1,0 +1,307 @@
+Dim aVal As Integer
+Dim bVal As Integer
+Dim cVal As Integer
+Dim x As Single
+Dim y As Single
+Dim vertexX As Double
+Dim vertexY As Double
+Dim tempD As Integer
+Dim D As Double
+Dim x1 As Double
+Dim x2 As Double
+Dim Keep As Boolean
+
+Private Sub cmdClear_Click()
+
+picGraph.Cls
+lblx1R.Caption = ""
+lblx2R.Caption = ""
+lblVertexF.Caption = ""
+lblVertex.Visible = False
+lblx1.Visible = False
+lblx2.Visible = False
+lblD.Visible = False
+
+End Sub
+
+Private Sub cmdGraph_Click()
+
+lblx1R.Caption = ""
+lblx2R.Caption = ""
+lblVertexF.Caption = ""
+lblVertex.Visible = False
+lblx1.Visible = False
+lblx2.Visible = False
+lblD.Visible = False
+
+If txtB.Text = "" Then
+
+    txtB.Text = 0
+
+End If
+
+If txtC.Text = "" Then
+
+    txtC.Text = 0
+
+End If
+
+If txtA.Text = "" Then
+
+    MsgBox "Please enter a value for A", , "Error"
+
+Else
+
+    If Keep = False Then
+    
+        picGraph.Cls
+        picGraph.ForeColor = vbRed
+    
+    ElseIf Keep = True Then
+    
+        picGraph.ForeColor = QBColor(Rnd * 15 + 0)
+    
+    End If
+
+    For x = 0 To 50 Step 0.001
+
+        y = aVal * (25 - x) ^ 2 - bVal * (25 - x) + cVal
+        picGraph.PSet (x, 25 - y)
+
+    Next x
+    
+    If aVal <> 0 Then
+    
+        Call VertexP
+        lblVertex.Visible = True
+        lblx1.Visible = True
+        lblx2.Visible = True
+        Call Calculations(txtA.Text, txtB.Text, txtC.Text)
+        lblD.Visible = True
+    
+    End If
+
+End If
+
+End Sub
+
+Private Sub cmdKeep_Click()
+
+If cmdKeep.Caption = "KEEP PREVIOUS GRAPHS: OFF" Then
+
+    cmdKeep.Caption = "KEEP PREVIOUS GRAPHS: ON"
+    cmdKeep.BackColor = &H80FF80
+    Keep = True
+
+ElseIf cmdKeep.Caption = "KEEP PREVIOUS GRAPHS: ON" Then
+
+    cmdKeep.Caption = "KEEP PREVIOUS GRAPHS: OFF"
+    cmdKeep.BackColor = &H8080FF
+    Keep = False
+
+End If
+
+End Sub
+
+Private Sub cmdRandom_Click()
+
+Randomize
+aVal = Rnd * 19 - 10
+bVal = Rnd * 19 - 10
+cVal = Rnd * 19 - 10
+
+If aVal = 0 Then
+
+    aVal = 1
+
+End If
+
+txtA.Text = aVal
+txtB.Text = bVal
+txtC.Text = cVal
+
+End Sub
+
+Private Sub cmoChoices_Click()
+
+cmdGraph.Visible = True
+cmdClear.Visible = True
+
+If cmoChoices.Text = "Randomly Generated" Then
+    
+    cmdRandom.Visible = True
+    cmdGraph.Left = 2280
+    cmdRandom.Left = 600
+    cmdClear.Left = 3960
+    txtA.Enabled = False
+    txtB.Enabled = False
+    txtC.Enabled = False
+
+ElseIf cmoChoices.Text = "Manually" Then
+    
+    cmdRandom.Visible = False
+    cmdGraph.Left = 3000
+    cmdClear.Left = 1320
+    txtA.Enabled = True
+    txtB.Enabled = True
+    txtC.Enabled = True
+
+End If
+
+End Sub
+
+
+
+Private Sub txtA_Change()
+
+If txtA.Text = "" Then
+
+    lblFormula.Caption = "y = ax^2 + bx + c"
+
+ElseIf txtA.Text = "0" Then
+
+    MsgBox "If A is 0, this will turn into a linear graph.", , "Notice"
+    aVal = CInt(txtA.Text)
+
+Else
+
+    If IsNumeric(txtA.Text) = False And txtA.Text <> "-" Then
+
+        MsgBox "Value cannot be a letter", , "Error"
+        txtA.Text = ""
+    
+    ElseIf txtA.Text = "-" And IsNumeric(txtA.Text) = False Then
+    
+        txtA.Text = "-"
+
+    ElseIf IsNumeric(txtA.Text) = True Then
+    
+        aVal = CInt(txtA.Text)
+        
+        If txtA.Text <> "" And txtB.Text <> "" And txtC.Text <> "" Then
+        
+            lblFormula.Caption = "y = " & txtA.Text & "x^2 + " & txtB.Text & "x + " & txtC.Text
+        
+        End If
+    
+    End If
+    
+End If
+
+End Sub
+
+Private Sub txtB_Change()
+
+If txtB.Text = "" Then
+
+    lblFormula.Caption = "y = ax^2 + bx + c"
+    
+Else
+
+    If IsNumeric(txtB.Text) = False And txtB.Text <> "-" Then
+
+        MsgBox "Value cannot be a letter", , "Error"
+        txtB.Text = ""
+    
+    ElseIf txtB.Text = "-" And IsNumeric(txtB.Text) = False Then
+    
+        txtB.Text = "-"
+    
+    ElseIf IsNumeric(txtB.Text) = True Then
+    
+        bVal = CInt(txtB.Text)
+        
+        If txtA.Text <> "" And txtB.Text <> "" And txtC.Text <> "" Then
+        
+            lblFormula.Caption = "y = " & txtA.Text & "x^2 + " & txtB.Text & "x + " & txtC.Text
+        
+        End If
+        
+    End If
+    
+End If
+
+End Sub
+
+Private Sub txtC_Change()
+
+If txtC.Text = "" Then
+
+    lblFormula.Caption = "y = ax^2 + bx + c"
+    
+Else
+
+    If IsNumeric(txtC.Text) = False And txtC.Text <> "-" Then
+
+        MsgBox "Value cannot be a letter", , "Error"
+        txtC.Text = ""
+    
+    ElseIf txtC.Text = "-" And IsNumeric(txtC.Text) = False Then
+    
+        txtC.Text = "-"
+        
+    ElseIf IsNumeric(txtC.Text) = True Then
+    
+        cVal = CInt(txtC.Text)
+        
+        If txtA.Text <> "" And txtB.Text <> "" And txtC.Text <> "" Then
+        
+            lblFormula.Caption = "y = " & txtA.Text & "x^2 + " & txtB.Text & "x + " & txtC.Text
+        
+        End If
+        
+    End If
+    
+End If
+
+End Sub
+
+Public Sub VertexP()
+
+vertexX = Round((-(bVal) / (2 * aVal)), 1)
+vertexY = Round((cVal - ((bVal ^ 2) / (4 * aVal))), 1)
+
+lblVertexF.Caption = "(" & vertexX & "," & vertexY & ")"
+
+End Sub
+
+Public Sub Calculations(a As Integer, b As Integer, c As Integer)
+
+tempD = (b ^ 2 - (4 * a * c))
+
+If tempD < 0 Then
+
+    D = Sqr(Abs(tempD))
+    x1 = Round((-b + D) / (2 * a), 2)
+    x2 = Round((-b - D) / (2 * a), 2)
+    lblx1R.Caption = x1 & "i"
+    lblx2R.Caption = x2 & "i"
+    lblD.Caption = "There are 2 imaginary roots"
+
+Else
+
+    D = Sqr(tempD)
+
+    If D > 1 And (D - CInt(D)) = 0 Then
+
+        lblD.Caption = "There are 2 real rational roots"
+    
+    ElseIf D > 1 And (D - CInt(D)) <> 0 Then
+    
+        lblD.Caption = "There are 2 real irrational roots"
+
+    ElseIf D = 0 Then
+
+        lblD.Caption = "There is 1 real root"
+
+
+    End If
+    
+    x1 = Round((-b + D) / (2 * a), 2)
+    x2 = Round((-b - D) / (2 * a), 2)
+    lblx1R.Caption = x1
+    lblx2R.Caption = x2
+    
+End If
+
+End Sub
