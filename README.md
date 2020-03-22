@@ -1,4 +1,4 @@
-# Pre-Calculus-Graphing-VB6
+# Pre-Calculus-Graphing
 
 A Pre-Calculus graphing calculator that visually graphs the given input.
 
